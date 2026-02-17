@@ -274,6 +274,58 @@
                     {num: 24, title: "Eine neue Ära"},
                     {num: 25, title: "Ein Jahr später (Epilog)"}
                 ]
+            },
+            {
+                id: "the-hesitation",
+                title: "The Hesitation",
+                author: "AutoScribe",
+                status: "fertig",
+                logline: "Sarah Chen, former FBI hostage negotiator, must confront her past when her estranged daughter is kidnapped by James Morrison – a criminal she helped train. A story about trust, patterns, and the moments that define us.",
+                chapters: 41,
+                cover: "TH",
+                chaptersData: [
+                    {num: 1, title: "The Workshop"},
+                    {num: 2, title: "The Call"},
+                    {num: 3, title: "The Pattern"},
+                    {num: 4, title: "The Student"},
+                    {num: 5, title: "The Hunt"},
+                    {num: 6, title: "The Defector"},
+                    {num: 7, title: "The Network"},
+                    {num: 8, title: "The Memory"},
+                    {num: 9, title: "The Decision"},
+                    {num: 10, title: "The Chase"},
+                    {num: 11, title: "The Revelation"},
+                    {num: 12, title: "The Confrontation"},
+                    {num: 13, title: "The Legacy"},
+                    {num: 14, title: "Part Two"},
+                    {num: 15, title: "The Hunt Continues"},
+                    {num: 16, title: "Elena"},
+                    {num: 17, title: "The Break"},
+                    {num: 18, title: "The Trail"},
+                    {num: 19, title: "Past Lives"},
+                    {num: 20, title: "The Meeting"},
+                    {num: 21, title: "Bridges"},
+                    {num: 22, title: "The Architect"},
+                    {num: 23, title: "Unraveling"},
+                    {num: 24, title: "The Guardian"},
+                    {num: 25, title: "Fractures"},
+                    {num: 26, title: "The Mastermind"},
+                    {num: 27, title: "Showdown"},
+                    {num: 28, title: "The Reckoning"},
+                    {num: 29, title: "Aftermath"},
+                    {num: 30, title: "Part Three"},
+                    {num: 31, title: "The Final Lesson"},
+                    {num: 32, title: "The Hesitation"},
+                    {num: 33, title: "Resolution"},
+                    {num: 34, title: "New Beginnings"},
+                    {num: 35, title: "The Institute"},
+                    {num: 36, title: "Students"},
+                    {num: 37, title: "The Circle"},
+                    {num: 38, title: "Legacy"},
+                    {num: 39, title: "The End"},
+                    {num: 40, title: "Epilogue"},
+                    {num: 41, title: "Final Chapter"}
+                ]
             }
         ];
         
@@ -360,7 +412,14 @@
         
         async function loadChapter(bookId, chapterNum) {
             const contentDiv = document.getElementById('content');
-            const filename = `buch-${bookId.split('-')[2]}-${bookId.split('-')[3]}-${bookId.split('-')[4]}-kapitel-${chapterNum}.md`;
+            
+            let filename;
+            if (bookId === "the-hesitation") {
+                filename = `chapter-${chapterNum}.md`;
+            } else {
+                filename = `buch-${bookId.split('-')[2]}-${bookId.split('-')[3]}-${bookId.split('-')[4]}-kapitel-${chapterNum}.md`;
+            }
+            
             try {
                 const resp = await fetch(filename);
                 if (resp.ok) {
