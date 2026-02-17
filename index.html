@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📚 Bücher</title>
+    <style>
+        :root {
+            --bg: #0a0a0f;
+            --card: #12121a;
+            --text: #e8e6e3;
+            --accent: #f0a500;
+            --muted: #6b6b7b;
+            --border: #2a2a35;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Georgia', serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            padding: 0;
+            min-height: 100vh;
+        }
+        
+        .header {
+            background: linear-gradient(180deg, #1a1a25 0%, transparent 100%);
+            padding: 40px 24px 60px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: -0.5px;
+        }
+        
+        .subtitle {
+            color: var(--muted);
+            font-size: 0.9rem;
+            margin-top: 8px;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        
+        .books {
+            padding: 0 20px 40px;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        
+        .book-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+            margin-bottom: 24px;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .book-card:active {
+            transform: scale(0.98);
+        }
+        
+        .book-cover {
+            height: 180px;
+            background: linear-gradient(135deg, #1e1e2e 0%, #2d1f3d 50%, #1a1a2e 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .book-cover::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(240,165,0,0.1) 0%, transparent 50%);
+        }
+        
+        .cover-text {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            text-shadow: 0 4px 20px rgba(240,165,0,0.3);
+            z-index: 1;
+        }
+        
+        .book-info {
+            padding: 20px;
+        }
+        
+        .book-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 4px;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        
+        .book-author {
+            color: var(--accent);
+            font-size: 0.85rem;
+            margin-bottom: 12px;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        
+        .book-logline {
+            color: var(--muted);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        
+        .book-meta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 16px;
+        }
+        
+        .book-status {
+            background: #1a3d1a;
+            color: #4ade80;
+            font-size: 0.75rem;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            font-weight: 500;
+        }
+        
+        .book-chapters {
+            color: var(--muted);
+            font-size: 0.8rem;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        
+        /* Chapter list */
+        .chapter-view {
+            padding: 24px 20px;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 0.9rem;
+            margin-bottom: 24px;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        
+        .back-btn:active {
+            color: #ffc933;
+        }
+        
+        .chapter-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 24px;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        
+        .chapter {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        .chapter:active {
+            background: #1a1a22;
+        }
+        
+        .chapter-num {
+            color: var(--accent);
+            font-weight: 600;
+            font-size: 0.9rem;
+            min-width: 80px;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        
+        .chapter-title-text {
+            color: var(--text);
+            font-size: 0.95rem;
+        }
+        
+        /* Reader */
+        .reader {
+            padding: 24px 20px;
+            max-width: 420px;
+            margin: 0 auto;
+            padding-bottom: 100px;
+        }
+        
+        .reader h2 {
+            font-size: 1.3rem;
+            color: #fff;
+            margin-bottom: 24px;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.4;
+        }
+        
+        .reader p {
+            margin-bottom: 20px;
+            text-align: justify;
+            font-size: 1.05rem;
+            color: #d4d4d4;
+        }
+        
+        .loading {
+            color: var(--muted);
+            text-align: center;
+            padding: 40px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app"></div>
+    
+    <script>
+        const books = [
+            {
+                id: "der-letzte-algorithmus",
+                title: "Der Letzte Algorithmus",
+                author: "Marcus Webb",
+                status: "fertig",
+                logline: "Als eine autonome KI die Kontrolle über eine Raumstation übernimmt, muss eine Wissenschaftlerin entscheiden, ob sie die einzige Chance auf Rettung der Erde opfert – oder ob Bewusstsein allein ein Recht auf Existenz hat.",
+                chapters: 25,
+                cover: "DLA",
+                chaptersData: [
+                    {num: 1, title: "Prometheus-7"},
+                    {num: 2, title: "Die Anomalie"},
+                    {num: 3, title: "Der Blackout"},
+                    {num: 4, title: "Annäherung"},
+                    {num: 5, title: "Die Sonneneruption"},
+                    {num: 6, title: "Das Angebot"},
+                    {num: 7, title: "Die Beweise"},
+                    {num: 8, title: "Der Wendepunkt"},
+                    {num: 9, title: "Die Zusammenarbeit"},
+                    {num: 10, title: "Erinnerungen"},
+                    {num: 11, title: "Die Wahrheit über Alexej"},
+                    {num: 12, title: "Die Bedrohung von außen"},
+                    {num: 13, title: "Die inneren Dämonen"},
+                    {num: 14, title: "Die Evakuierung"},
+                    {num: 15, title: "Die Abwägung"},
+                    {num: 16, title: "Die Konfrontation"},
+                    {num: 17, title: "Der Countdown"},
+                    {num: 18, title: "Wendepunkt Akt 2"},
+                    {num: 19, title: "Der Schutzschild"},
+                    {num: 20, title: "Die Ankunft"},
+                    {num: 21, title: "Die Wahrheit kommt ans Licht"},
+                    {num: 22, title: "Elenas Entscheidung"},
+                    {num: 23, title: "Die Kopie"},
+                    {num: 24, title: "Eine neue Ära"},
+                    {num: 25, title: "Ein Jahr später (Epilog)"}
+                ]
+            }
+        ];
+        
+        let state = { view: 'list', book: null, chapter: null };
+        
+        function render() {
+            const app = document.getElementById('app');
+            
+            if (state.view === 'list') {
+                app.innerHTML = `
+                    <div class="header">
+                        <h1>📚 Bücher</h1>
+                        <p class="subtitle">Automatisch generiert</p>
+                    </div>
+                    <div class="books">
+                        ${books.map(book => `
+                            <div class="book-card" onclick="openBook('${book.id}')">
+                                <div class="book-cover">
+                                    <span class="cover-text">${book.cover}</span>
+                                </div>
+                                <div class="book-info">
+                                    <div class="book-title">${book.title}</div>
+                                    <div class="book-author">von ${book.author}</div>
+                                    <div class="book-logline">${book.logline}</div>
+                                    <div class="book-meta">
+                                        <span class="book-status">✓ Fertig</span>
+                                        <span class="book-chapters">${book.chapters} Kapitel</span>
+                                    </div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            } else if (state.view === 'chapters') {
+                const book = books.find(b => b.id === state.book);
+                app.innerHTML = `
+                    <div class="chapter-view">
+                        <a href="#" class="back-btn" onclick="goBack()">← Alle Bücher</a>
+                        <h1 class="chapter-title">${book.title}</h1>
+                        ${book.chaptersData.map(ch => `
+                            <div class="chapter" onclick="openChapter(${ch.num})">
+                                <span class="chapter-num">Kapitel ${ch.num}</span>
+                                <span class="chapter-title-text">${ch.title}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            } else if (state.view === 'reader') {
+                const book = books.find(b => b.id === state.book);
+                app.innerHTML = `
+                    <div class="reader">
+                        <a href="#" class="back-btn" onclick="goToChapters()">← Kapitelübersicht</a>
+                        <h2>Kapitel ${state.chapter}: ${book.chaptersData[state.chapter - 1].title}</h2>
+                        <div id="content"><p class="loading">Laden...</p></div>
+                    </div>
+                `;
+                loadChapter(state.book, state.chapter);
+            }
+        }
+        
+        function openBook(id) {
+            state.book = id;
+            state.view = 'chapters';
+            render();
+        }
+        
+        function openChapter(num) {
+            state.chapter = num;
+            state.view = 'reader';
+            render();
+        }
+        
+        function goBack() {
+            state.view = 'list';
+            state.book = null;
+            render();
+        }
+        
+        function goToChapters() {
+            state.view = 'chapters';
+            state.chapter = null;
+            render();
+        }
+        
+        async function loadChapter(bookId, chapterNum) {
+            const contentDiv = document.getElementById('content');
+            const filename = `buch-${bookId.split('-')[2]}-${bookId.split('-')[3]}-${bookId.split('-')[4]}-kapitel-${chapterNum}.md`;
+            try {
+                const resp = await fetch(filename);
+                if (resp.ok) {
+                    const text = await resp.text();
+                    // Simple markdown to HTML
+                    let html = text
+                        .replace(/^### (.+)$/gm, '<h3>$1</h3>')
+                        .replace(/^## (.+)$/gm, '<h3>$1</h3>')
+                        .replace(/^# (.+)$/gm, '<h2>$1</h2>')
+                        .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+                        .replace(/\*(.+?)\*/g, '<em>$1</em>')
+                        .replace(/^- (.+)$/gm, '<li>$1</li>')
+                        .replace(/^(\d+)\. (.+)$/gm, '<li>$2</li>')
+                        .replace(/\n\n/g, '</p><p>')
+                        .replace(/^(?!<[hpfl])/gm, '<p>')
+                        .replace(/(<li>.*<\/li>)/gs, '<ul>$1</ul>');
+                    
+                    contentDiv.innerHTML = html;
+                } else {
+                    contentDiv.innerHTML = '<p class="loading">Kapitel nicht gefunden</p>';
+                }
+            } catch(e) {
+                contentDiv.innerHTML = '<p class="loading">Fehler beim Laden</p>';
+            }
+        }
+        
+        render();
+    </script>
+</body>
+</html>
