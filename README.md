@@ -1,6 +1,6 @@
 # Bücher - Book Reader
 
-A mobile-first book reader website.
+A mobile-first book reader website..
 
 ## Deploy to Vercel
 
