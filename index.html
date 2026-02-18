@@ -247,6 +247,7 @@
                 logline: "Als eine autonome KI die Kontrolle über eine Raumstation übernimmt, muss eine Wissenschaftlerin entscheiden, ob sie die einzige Chance auf Rettung der Erde opfert – oder ob Bewusstsein allein ein Recht auf Existenz hat.",
                 chapters: 25,
                 cover: "DLA",
+                filePrefix: "buch-2026-02-17-marcus-webb",
                 chaptersData: [
                     {num: 1, title: "Prometheus-7"},
                     {num: 2, title: "Die Anomalie"},
@@ -283,6 +284,7 @@
                 logline: "Sarah Chen, former FBI hostage negotiator, must confront her past when her estranged daughter is kidnapped by James Morrison – a criminal she helped train. A story about trust, patterns, and the moments that define us.",
                 chapters: 41,
                 cover: "TH",
+                filePrefix: "chapter",
                 chaptersData: [
                     {num: 1, title: "The Workshop"},
                     {num: 2, title: "The Call"},
@@ -413,12 +415,14 @@
         async function loadChapter(bookId, chapterNum) {
             const contentDiv = document.getElementById('content');
             
-            let filename;
-            if (bookId === "the-hesitation") {
-                filename = `chapter-${chapterNum}.md`;
-            } else {
-                filename = `buch-${bookId.split('-')[2]}-${bookId.split('-')[3]}-${bookId.split('-')[4]}-kapitel-${chapterNum}.md`;
+            // Find the book to get its filePrefix
+            const book = books.find(b => b.id === bookId);
+            if (!book || !book.filePrefix) {
+                contentDiv.innerHTML = '<p class="loading">Book not found</p>';
+                return;
             }
+            
+            let filename = `${book.filePrefix}-${chapterNum}.md`;
             
             try {
                 const resp = await fetch(filename);
