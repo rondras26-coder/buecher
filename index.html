@@ -430,6 +430,8 @@
                     const text = await resp.text();
                     // Simple markdown to HTML
                     let html = text
+                        // Remove first heading (we show title from chaptersData)
+                        .replace(/^# .+$/m, '')
                         .replace(/^### (.+)$/gm, '<h3>$1</h3>')
                         .replace(/^## (.+)$/gm, '<h3>$1</h3>')
                         .replace(/^# (.+)$/gm, '<h2>$1</h2>')
@@ -440,6 +442,9 @@
                         .replace(/\n\n/g, '</p><p>')
                         .replace(/^(?!<[hpfl])/gm, '<p>')
                         .replace(/(<li>.*<\/li>)/gs, '<ul>$1</ul>');
+                    
+                    // Clean up empty paragraphs at start
+                    html = html.replace(/^<p><\/p>/, '');
                     
                     contentDiv.innerHTML = html;
                 } else {
