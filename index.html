@@ -446,7 +446,12 @@
                     // Clean up empty paragraphs at start
                     html = html.replace(/^<p><\/p>/, '');
                     
-                    contentDiv.innerHTML = html;
+                    // Add navigation arrows
+                    const prevLink = chapterNum > 1 ? `<a href="#" onclick="openChapter(${chapterNum - 1})">← Zurück</a>` : '';
+                    const nextLink = chapterNum < book.chapters ? `<a href="#" onclick="openChapter(${chapterNum + 1})">Weiter →</a>` : '';
+                    const nav = `<div class="chapter-nav" style="display:flex;justify-content:space-between;margin-top:24px;padding-top:16px;border-top:1px solid var(--border);">${prevLink}${nextLink}</div>`;
+                    
+                    contentDiv.innerHTML = html + nav;
                 } else {
                     contentDiv.innerHTML = '<p class="loading">Kapitel nicht gefunden</p>';
                 }
