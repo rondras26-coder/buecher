@@ -451,7 +451,10 @@
                     const nextLink = chapterNum < book.chapters ? `<a href="#" onclick="openChapter(${chapterNum + 1})">Weiter →</a>` : '';
                     const nav = `<div class="chapter-nav" style="display:flex;justify-content:space-between;margin-top:24px;padding-top:16px;border-top:1px solid var(--border);">${prevLink}${nextLink}</div>`;
                     
-                    contentDiv.innerHTML = html + nav;
+                    // Add back to chapter list at bottom
+                    const backLink = `<div style="text-align:center;margin-top:16px;"><a href="#" onclick="goToChapters()" style="color:var(--accent);">← Kapitelübersicht</a></div>`;
+                    
+                    contentDiv.innerHTML = html + nav + backLink;
                 } else {
                     contentDiv.innerHTML = '<p class="loading">Kapitel nicht gefunden</p>';
                 }
